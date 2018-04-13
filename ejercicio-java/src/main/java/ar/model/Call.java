@@ -12,7 +12,7 @@ public class Call {
 	public Call(Integer id){
 		this.id=id;
 		Random rn = new Random();
-		duration = rn.nextInt(10) + 1;
+		duration = rn.nextInt(11 - 5) + 5;
 	}
 	
 	public Integer getId() {
