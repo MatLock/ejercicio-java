@@ -1,16 +1,11 @@
 package ar.service.impl;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
 import ar.model.Call;
-import ar.model.Director;
 import ar.model.Employee;
-import ar.model.Operator;
-import ar.model.Supervisor;
 import ar.service.DispatcherService;
 
 public class Dispatcher implements DispatcherService {
@@ -19,21 +14,21 @@ public class Dispatcher implements DispatcherService {
 	private List<Employee> employees;
 	private Queue<Call> onHoldCalls;
 		
-	/**
-	 * Creates a dispatcher instance with 1 director, 4 supervisors and 5 operators
-	 */
-	public Dispatcher(){
-		employees = Arrays.asList(new Director(1),
-				new Supervisor(2),new Supervisor(3),new Supervisor(4),new Supervisor(5),
-				new Operator(6),new Operator(7),new Operator(8),new Operator(9),new Operator(10));
-		onHoldCalls = new ArrayDeque<Call>();
-	}
+	
 	
 	public List<Employee> getEmployees() {
 		return employees;
 	}
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
+	}
+
+	public Queue<Call> getOnHoldCalls() {
+		return onHoldCalls;
+	}
+
+	public void setOnHoldCalls(Queue<Call> onHoldCalls) {
+		this.onHoldCalls = onHoldCalls;
 	}
 
 	@Override

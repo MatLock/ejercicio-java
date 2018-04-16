@@ -2,27 +2,37 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ar.model.Call;
+import ar.model.Director;
+import ar.model.Operator;
+import ar.model.Supervisor;
 import ar.service.DispatcherService;
-import ar.service.impl.Dispatcher;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"classpath:configuration.xml"})
 public class DispatcherTest{
 
-	
+	@Autowired
 	DispatcherService dispatcher;	
 	Call call0,call1,call2,call3,call4,call5,call6,call7,call8,call9,call10;	
 	
 	@Before
 	public void setUp (){
+		dispatcher.setEmployees(Arrays.asList(new Director(1),
+				new Supervisor(2),new Supervisor(3),new Supervisor(4),new Supervisor(5),
+				new Operator(6),new Operator(7),new Operator(8),new Operator(9),new Operator(10)));
+		dispatcher.setOnHoldCalls(new ArrayDeque<Call>());
 		call0 = new Call(0);
 		call1 = new Call(1);
 		call2 = new Call(2);
@@ -34,7 +44,6 @@ public class DispatcherTest{
 		call8 = new Call(8);
 		call9 = new Call(9);
 		call10 = new Call(10);
-		dispatcher = new Dispatcher();
 	}	
 	
 	

@@ -1,14 +1,20 @@
 package test;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.concurrent.Semaphore;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ar.model.Call;
+import ar.model.Director;
+import ar.model.Operator;
+import ar.model.Supervisor;
 import ar.service.impl.Dispatcher;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -16,11 +22,15 @@ import ar.service.impl.Dispatcher;
 public class StressTest{
 
 	public static Semaphore END_CONDITION = new Semaphore(0);
+	@Autowired
 	Dispatcher dispatcher;	
 	
 	@Before
 	public void setUp(){
-		dispatcher = new Dispatcher();
+		dispatcher.setEmployees(Arrays.asList(new Director(1),
+				new Supervisor(2),new Supervisor(3),new Supervisor(4),new Supervisor(5),
+				new Operator(6),new Operator(7),new Operator(8),new Operator(9),new Operator(10)));
+		dispatcher.setOnHoldCalls(new ArrayDeque<Call>());
 	}
 	
 	/**
