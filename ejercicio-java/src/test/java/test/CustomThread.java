@@ -1,7 +1,7 @@
 package test;
 
 import ar.model.Call;
-import ar.service.Dispatcher;
+import ar.service.impl.Dispatcher;
 
 public class CustomThread extends Thread{
 

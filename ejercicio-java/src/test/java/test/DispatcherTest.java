@@ -9,8 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ar.model.Call;
-import ar.service.Dispatcher;
 import ar.service.DispatcherService;
+import ar.service.impl.Dispatcher;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

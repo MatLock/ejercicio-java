@@ -1,4 +1,4 @@
-package ar.service;
+package ar.service.impl;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -11,6 +11,7 @@ import ar.model.Director;
 import ar.model.Employee;
 import ar.model.Operator;
 import ar.model.Supervisor;
+import ar.service.DispatcherService;
 
 public class Dispatcher implements DispatcherService {
 
