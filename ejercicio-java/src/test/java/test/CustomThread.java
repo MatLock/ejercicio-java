@@ -21,7 +21,6 @@ public class CustomThread extends Thread{
 		while (runs < 1000){
 			try {
 				dispatcher.dispatchCall(call);
-				call.getSemaphore().acquire();
 				this.sleep(call.getDuration() * 1000);
 				dispatcher.endCall(call);
 				runs++;

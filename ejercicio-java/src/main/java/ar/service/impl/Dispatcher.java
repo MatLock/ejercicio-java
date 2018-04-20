@@ -2,7 +2,8 @@ package ar.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 import ar.model.Call;
 import ar.model.Employee;
@@ -12,7 +13,8 @@ public class Dispatcher implements DispatcherService {
 
 	
 	private List<Employee> employees;
-	private Queue<Call> onHoldCalls;
+	private ReentrantLock lock = new ReentrantLock();
+	private Condition condition = lock.newCondition();
 		
 	
 	
@@ -23,49 +25,42 @@ public class Dispatcher implements DispatcherService {
 		this.employees = employees;
 	}
 
-	public Queue<Call> getOnHoldCalls() {
-		return onHoldCalls;
-	}
-
-	public void setOnHoldCalls(Queue<Call> onHoldCalls) {
-		this.onHoldCalls = onHoldCalls;
-	}
-
 	@Override
-	public synchronized void dispatchCall(Call call)  {
-		Employee employee = findIdleEmployee();
-		if(employee != null){
+	public void dispatchCall(Call call)  {
+		try{
+			lock.lock();
+			Employee employee =findIdleEmployee();
+			while (employee == null){
+				System.out.println("Call with Id: " + call.getId() + " is on Hold ");									
+				condition.awaitUninterruptibly();
+				employee = findIdleEmployee();
+			}
 			employee.setCall(call);
 			employee.changeState();
-			call.getSemaphore().release();
-			System.out.println("Call with Id: " + call.getId() + " is taken by " + employee.toString());
-		}else{
-			System.out.println("Call with Id: " + call.getId() + " is on Hold ");
-			onHoldCalls.add(call);
+			System.out.println("Call with Id: " + call.getId() + " is taken by " + employee.toString());				
+		}finally{
+			lock.unlock();
 		}
 	}
 	
 	@Override
-	public synchronized void endCall(Call call){
-		Employee employee = findEmployeeWithCall(call);
-		if(!onHoldCalls.isEmpty()){
-			System.out.println("Call with id: "+call.getId() + " ended...");
-			Call onHoldCall = onHoldCalls.poll(); 
-			employee.setCall(onHoldCall);
-			System.out.println("Call with id: "+onHoldCall.getId() + " is taken by " + employee.toString());
-			onHoldCall.getSemaphore().release();
-		}else{
+	public void endCall(Call call){
+		try{
+			lock.lock();
+			Employee employee = findEmployeeWithCall(call);
 			employee.setCall(null);
 			employee.changeState();			
+			System.out.println("Call with id: "+call.getId() + " ended...");
+			condition.signal();			
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(call.getId());
+		}finally{
+			lock.unlock();
 		}
 	}
 	
-	@Override
-	public Integer onHoldCalls(){
-		return onHoldCalls.size();
-	}
-	
-	private Employee findEmployeeWithCall(Call call) {
+	private  Employee findEmployeeWithCall(Call call) {
 		return employees.stream().filter(e -> e.getCall() != null ? e.getCall().equals(call):false).findFirst().get();
 	}
 

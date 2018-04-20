@@ -7,7 +7,6 @@ public class Call {
 
 	private Integer id;
 	private Integer duration;
-	private Semaphore semaphore = new Semaphore(0);
 	
 	public Call(Integer id){
 		this.id=id;
@@ -26,13 +25,6 @@ public class Call {
 	}
 	public void setDuration(Integer duration) {
 		this.duration = duration;
-	}
-	public Semaphore getSemaphore() {
-		return semaphore;
-	}
-
-	public void setSemaphore(Semaphore semaphore) {
-		this.semaphore = semaphore;
 	}
 
 	@Override

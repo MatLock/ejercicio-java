@@ -32,7 +32,6 @@ public class DispatcherTest{
 		dispatcher.setEmployees(Arrays.asList(new Director(1),
 				new Supervisor(2),new Supervisor(3),new Supervisor(4),new Supervisor(5),
 				new Operator(6),new Operator(7),new Operator(8),new Operator(9),new Operator(10)));
-		dispatcher.setOnHoldCalls(new ArrayDeque<Call>());
 		call0 = new Call(0);
 		call1 = new Call(1);
 		call2 = new Call(2);
@@ -107,23 +106,5 @@ public class DispatcherTest{
 		assertEquals(dispatcher.busyDirectors().intValue(),1);
 	}
 	
-	/**
-	 * All employees are busy so the call is 'on Hold'
-	 */	
-	@Test
-	public void onHoldCall(){
-		dispatcher.dispatchCall(call0);
-		dispatcher.dispatchCall(call1);
-		dispatcher.dispatchCall(call2);
-		dispatcher.dispatchCall(call3);
-		dispatcher.dispatchCall(call4);
-		dispatcher.dispatchCall(call5);
-		dispatcher.dispatchCall(call6);
-		dispatcher.dispatchCall(call7);
-		dispatcher.dispatchCall(call8);
-		dispatcher.dispatchCall(call9);
-		dispatcher.dispatchCall(call10);
-		assertEquals(dispatcher.onHoldCalls().intValue(),1);
-	}
 	
 }

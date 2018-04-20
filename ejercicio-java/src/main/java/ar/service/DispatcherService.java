@@ -1,7 +1,6 @@
 package ar.service;
 
 import java.util.List;
-import java.util.Queue;
 
 import ar.model.Call;
 import ar.model.Employee;
@@ -18,7 +17,5 @@ public interface DispatcherService {
 	public Long busySupervisors();
 	public Long busyOperators();
 	public Long busyDirectors();
-	public Integer onHoldCalls();
 	public void setEmployees(List<Employee> asList);
-	public void setOnHoldCalls(Queue<Call> onHoldCalls);
 }

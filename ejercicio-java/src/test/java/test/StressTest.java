@@ -30,7 +30,6 @@ public class StressTest{
 		dispatcher.setEmployees(Arrays.asList(new Director(1),
 				new Supervisor(2),new Supervisor(3),new Supervisor(4),new Supervisor(5),
 				new Operator(6),new Operator(7),new Operator(8),new Operator(9),new Operator(10)));
-		dispatcher.setOnHoldCalls(new ArrayDeque<Call>());
 	}
 	
 	/**
